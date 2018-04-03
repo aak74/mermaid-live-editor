@@ -18,7 +18,6 @@ class Edit extends React.Component {
     super(props)
     this.onCodeChange = this.onCodeChange.bind(this)
     this.onThemeChange = this.onThemeChange.bind(this)
-    this.onConfigChange = this.onConfigChange.bind(this)
 
     const search = props.location.search
     const params = new window.URLSearchParams(search)
@@ -32,8 +31,6 @@ class Edit extends React.Component {
   }
 
   onCodeChange (event) {
-    console.log('onCodeChange', event);
-    
     const { history, match: { path } } = this.props
     let base64 = Base64.encodeURI(event.target.value)
     if (base64 === '') {
@@ -50,18 +47,6 @@ class Edit extends React.Component {
       history.push(path.replace(':base64', base64) + `?theme=${value}`)
     }
     window.location.reload(false)
-  }
-
-  onConfigChange (value) {
-    console.log('onConfigChange', value);
-    // this.setState({config: value})
-    // const { history, match: { path, params: { base64 } } } = this.props
-    // if (value === 'default') {
-    //   history.push(path.replace(':base64', base64))
-    // } else {
-    //   history.push(path.replace(':base64', base64) + `?config=${value}`)
-    // }
-    // window.location.reload(false)
   }
 
   render () {
