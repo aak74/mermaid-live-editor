@@ -61,6 +61,16 @@ class Preview extends React.Component {
   initMermaid () {
     const { code, history, match: { url } } = this.props
     try {
+      mermaid.initialize({
+        theme: 'forest',
+        gantt: {
+          axisFormatter: [
+            ['%d.%m', (d) => {
+              return d.getDay() === 1
+            }]
+          ]
+        }
+      })
       mermaid.parse(code)
       mermaid.init(undefined, this.container)
     } catch ({str, hash}) {

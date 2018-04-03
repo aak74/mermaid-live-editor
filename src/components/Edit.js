@@ -18,17 +18,22 @@ class Edit extends React.Component {
     super(props)
     this.onCodeChange = this.onCodeChange.bind(this)
     this.onThemeChange = this.onThemeChange.bind(this)
+    this.onConfigChange = this.onConfigChange.bind(this)
 
     const search = props.location.search
     const params = new window.URLSearchParams(search)
     const theme = params.get('theme') || 'default'
+    const config = ''
     this.state = {
-      theme
+      theme,
+      config
     }
     mermaid.initialize({ theme })
   }
 
   onCodeChange (event) {
+    console.log('onCodeChange', event);
+    
     const { history, match: { path } } = this.props
     let base64 = Base64.encodeURI(event.target.value)
     if (base64 === '') {
@@ -47,9 +52,22 @@ class Edit extends React.Component {
     window.location.reload(false)
   }
 
+  onConfigChange (value) {
+    console.log('onConfigChange', value);
+    // this.setState({config: value})
+    // const { history, match: { path, params: { base64 } } } = this.props
+    // if (value === 'default') {
+    //   history.push(path.replace(':base64', base64))
+    // } else {
+    //   history.push(path.replace(':base64', base64) + `?config=${value}`)
+    // }
+    // window.location.reload(false)
+  }
+
   render () {
     const { match: { url, params: { base64 } } } = this.props
     const code = base64 === 'blank' ? '' : Base64.decode(base64)
+    const config = this.config
     return <div>
       <h1>Mermaid Live Editor</h1>
       <Divider />
@@ -58,6 +76,9 @@ class Edit extends React.Component {
           <Affix>
             <Card title='Code'>
               <Input.TextArea autosize={{ minRows: 4, maxRows: 16 }} value={code} onChange={this.onCodeChange} />
+            </Card>
+            <Card title='Config'>
+              <Input.TextArea autosize={{ minRows: 4, maxRows: 8 }} value={this.state.config} onChange={this.onConfigChange} />
             </Card>
           </Affix>
           <Card title='Theme'>
